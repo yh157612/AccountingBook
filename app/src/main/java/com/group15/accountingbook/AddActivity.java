@@ -4,8 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +21,7 @@ public class AddActivity extends ActionBarActivity {
 
     private static EditText editDesc, editAmount;
     private static Button editDate;
-    private static RadioButton radioExpense, radioIncome;
+    private static RadioButton radioExpense;
     private static int editYear, editMonth, editDay;
 
     @Override
@@ -29,11 +29,10 @@ public class AddActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
-        editDesc = (EditText)findViewById(R.id.edit_description);
-        editDate = (Button)findViewById(R.id.edit_date);
-        editAmount = (EditText)findViewById(R.id.edit_amount);
-        radioExpense = (RadioButton)findViewById(R.id.radio_expense);
-        radioIncome = (RadioButton)findViewById(R.id.radio_income);
+        editDesc = (EditText) findViewById(R.id.edit_description);
+        editDate = (Button) findViewById(R.id.edit_date);
+        editAmount = (EditText) findViewById(R.id.edit_amount);
+        radioExpense = (RadioButton) findViewById(R.id.radio_expense);
 
         final Calendar c = Calendar.getInstance();
         editYear = c.get(Calendar.YEAR);
@@ -100,6 +99,8 @@ public class AddActivity extends ActionBarActivity {
         intent.putExtra(MainActivity.EXTRA_DESC, editDesc.getText().toString());
         intent.putExtra(MainActivity.EXTRA_AMOUNT,
                 Double.parseDouble(editAmount.getText().toString()));
+        intent.putExtra(MainActivity.EXTRA_EXPENSE, radioExpense.isChecked());
+        intent.putExtra(MainActivity.EXTRA_DATE, editDate.getText());
 
         setResult(RESULT_OK, intent);
         finish();

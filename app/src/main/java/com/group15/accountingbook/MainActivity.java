@@ -1,24 +1,41 @@
 package com.group15.accountingbook;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
+import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity {
 
     public static final int REQ_CODE_ADD = 1;
     public static final String EXTRA_DESC = "extra_desc";
     public static final String EXTRA_AMOUNT = "extra_amount";
+    public static final String EXTRA_EXPENSE = "extra_expense";
+    public static final String EXTRA_DATE = "extra_date";
+
+    Button buttonOverview, buttonDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        buttonOverview = (Button) findViewById(R.id.button_overview);
+        buttonDetails = (Button) findViewById(R.id.button_details);
+
+        if (findViewById(R.id.fragment_container) != null) {
+            if (savedInstanceState != null) {
+                return;
+            }
+            OverviewFragment overviewFragment = new OverviewFragment();
+            getFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, overviewFragment).commit();
+            buttonOverview.setTextColor(getResources().getColor(R.color.indigo));
+        }
     }
 
 
@@ -51,9 +68,7 @@ public class MainActivity extends ActionBarActivity {
         switch (requestCode) {
             case REQ_CODE_ADD:
                 if (resultCode == RESULT_OK) {
-                    Toast.makeText(this,
-                            data.getStringExtra(EXTRA_DESC) + "\n$" + data.getDoubleExtra(EXTRA_AMOUNT, 0),
-                            Toast.LENGTH_SHORT).show();
+                    addEntryFinished(data);
                 }
                 break;
         }
@@ -62,5 +77,30 @@ public class MainActivity extends ActionBarActivity {
     public void addEntry() {
         Intent intent = new Intent(this, AddActivity.class);
         startActivityForResult(intent, REQ_CODE_ADD);
+    }
+
+    public void addEntryFinished(Intent data) {
+        AccountingBook.addItem(new Item(
+                data.getStringExtra(EXTRA_DESC),
+                ((data.getBooleanExtra(EXTRA_EXPENSE, true)) ? -1 : 1) * data.getDoubleExtra(EXTRA_AMOUNT, 0),
+                data.getStringExtra(EXTRA_DATE)
+        ));
+        switchToDetailsTab(null);
+    }
+
+    public void switchToOverviewTab(View view) {
+        OverviewFragment overviewFragment = new OverviewFragment();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, overviewFragment).commit();
+        buttonOverview.setTextColor(getResources().getColor(R.color.indigo));
+        buttonDetails.setTextColor(Color.BLACK);
+    }
+
+    public void switchToDetailsTab(View view) {
+        ItemFragment itemFragment = new ItemFragment();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, itemFragment).commit();
+        buttonDetails.setTextColor(getResources().getColor(R.color.indigo));
+        buttonOverview.setTextColor(Color.BLACK);
     }
 }

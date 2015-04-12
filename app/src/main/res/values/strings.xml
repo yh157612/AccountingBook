@@ -14,4 +14,9 @@
 
     <string name="expense">Expense</string>
     <string name="income">Income</string>
+
+    <string name="overview">Overview</string>
+    <string name="details">Details</string>
+
+    <string name="balance">Balance</string>
 </resources>
