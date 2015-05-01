@@ -1,7 +1,6 @@
 package com.group15.accountingbook;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -35,6 +34,7 @@ public class MainActivity extends ActionBarActivity {
             getFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, overviewFragment).commit();
             buttonOverview.setTextColor(getResources().getColor(R.color.indigo));
+            buttonDetails.setTextColor(getResources().getColor(R.color.grey));
         }
     }
 
@@ -93,7 +93,7 @@ public class MainActivity extends ActionBarActivity {
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, overviewFragment).commit();
         buttonOverview.setTextColor(getResources().getColor(R.color.indigo));
-        buttonDetails.setTextColor(Color.BLACK);
+        buttonDetails.setTextColor(getResources().getColor(R.color.grey));
     }
 
     public void switchToDetailsTab(View view) {
@@ -101,6 +101,6 @@ public class MainActivity extends ActionBarActivity {
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, itemFragment).commit();
         buttonDetails.setTextColor(getResources().getColor(R.color.indigo));
-        buttonOverview.setTextColor(Color.BLACK);
+        buttonOverview.setTextColor(getResources().getColor(R.color.grey));
     }
 }

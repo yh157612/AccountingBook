@@ -7,6 +7,7 @@
 
     <string name="test_add_activity">This is add activity.</string>
     <string name="add">Add</string>
+    <string name="delete">Delete</string>
     <string name="description">Description</string>
     <string name="amount">Amount</string>
     <string name="date">Date</string>
