@@ -9,10 +9,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class ListViewAdapter extends ArrayAdapter<Item> {
+public class ListViewAdapter extends ArrayAdapter<Record> {
 
-    public ListViewAdapter(Context context, List<Item> items) {
-        super(context, R.layout.listview_item, items);
+    public ListViewAdapter(Context context, List<Record> records) {
+        super(context, R.layout.listview_item, records);
     }
 
     @Override
@@ -36,10 +36,10 @@ public class ListViewAdapter extends ArrayAdapter<Item> {
         }
 
         // update the item view
-        Item item = getItem(position);
-        viewHolder.itemDescription.setText(item.description);
-        viewHolder.itemAmount.setText("$  " + ((item.amount > 0) ? "+" : "") + item.amount);
-        viewHolder.itemDate.setText(item.date);
+        Record record = getItem(position);
+        viewHolder.itemDescription.setText(record.description);
+        viewHolder.itemAmount.setText("$  " + ((record.amount > 0) ? "+" : "") + record.amount);
+        viewHolder.itemDate.setText(record.date);
 
         return convertView;
     }

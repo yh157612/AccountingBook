@@ -11,22 +11,30 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class ItemFragment extends ListFragment {
+import java.util.List;
 
-    ListViewAdapter mListAdapter;
+public class RecordFragment extends ListFragment {
+
+    private ListViewAdapter mListAdapter;
+    private AccountingBook accountingBook;
+    private List<Record> RECORDS;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ItemFragment() {
+    public RecordFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mListAdapter = new ListViewAdapter(getActivity(), AccountingBook.ITEMS);
+        accountingBook = new AccountingBook(getActivity());
+        accountingBook.open();
+        RECORDS = accountingBook.getAllRecords();
+
+        mListAdapter = new ListViewAdapter(getActivity(), RECORDS);
         setListAdapter(mListAdapter);
     }
 
@@ -95,6 +103,7 @@ public class ItemFragment extends ListFragment {
         SparseBooleanArray selectedItems = getListView().getCheckedItemPositions();
         for (int i = mListAdapter.getCount() - 1; i >= 0; i--) {
             if (selectedItems.get(i)) {
+                accountingBook.deleteRecord(mListAdapter.getItem(i));
                 mListAdapter.remove(mListAdapter.getItem(i));
             }
         }

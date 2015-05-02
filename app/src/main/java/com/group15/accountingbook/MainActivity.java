@@ -16,12 +16,17 @@ public class MainActivity extends ActionBarActivity {
     public static final String EXTRA_EXPENSE = "extra_expense";
     public static final String EXTRA_DATE = "extra_date";
 
-    Button buttonOverview, buttonDetails;
+    private Button buttonOverview, buttonDetails;
+
+    private AccountingBook accountingBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        accountingBook = new AccountingBook(this);
+        accountingBook.open();
 
         buttonOverview = (Button) findViewById(R.id.button_overview);
         buttonDetails = (Button) findViewById(R.id.button_details);
@@ -30,11 +35,7 @@ public class MainActivity extends ActionBarActivity {
             if (savedInstanceState != null) {
                 return;
             }
-            OverviewFragment overviewFragment = new OverviewFragment();
-            getFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, overviewFragment).commit();
-            buttonOverview.setTextColor(getResources().getColor(R.color.indigo));
-            buttonDetails.setTextColor(getResources().getColor(R.color.grey));
+            switchToOverviewTab(null);
         }
     }
 
@@ -80,11 +81,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void addEntryFinished(Intent data) {
-        AccountingBook.addItem(new Item(
+        accountingBook.addRecord(
                 data.getStringExtra(EXTRA_DESC),
                 ((data.getBooleanExtra(EXTRA_EXPENSE, true)) ? -1 : 1) * data.getDoubleExtra(EXTRA_AMOUNT, 0),
                 data.getStringExtra(EXTRA_DATE)
-        ));
+        );
         switchToDetailsTab(null);
     }
 
@@ -97,9 +98,9 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void switchToDetailsTab(View view) {
-        ItemFragment itemFragment = new ItemFragment();
+        RecordFragment recordFragment = new RecordFragment();
         getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, itemFragment).commit();
+                .replace(R.id.fragment_container, recordFragment).commit();
         buttonDetails.setTextColor(getResources().getColor(R.color.indigo));
         buttonOverview.setTextColor(getResources().getColor(R.color.grey));
     }

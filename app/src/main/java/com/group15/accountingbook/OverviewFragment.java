@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 public class OverviewFragment extends Fragment {
 
+    private AccountingBook accountingBook;
+
     public OverviewFragment() {
         // Required empty public constructor
     }
@@ -18,8 +20,12 @@ public class OverviewFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
+
+        accountingBook = new AccountingBook(getActivity());
+        accountingBook.open();
+
         TextView textBalance = (TextView) view.findViewById(R.id.text_balance);
-        textBalance.setText("$" + AccountingBook.getBalance());
+        textBalance.setText("$" + accountingBook.getBalance());
         return view;
     }
 
