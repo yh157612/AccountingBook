@@ -30,7 +30,7 @@ public class RecordFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        accountingBook = new AccountingBook(getActivity());
+        accountingBook = AccountingBook.getInstance(getActivity());
         accountingBook.open();
         RECORDS = accountingBook.getAllRecords();
 

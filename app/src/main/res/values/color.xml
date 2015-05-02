@@ -4,4 +4,5 @@
     <color name="indigo300">#7986CB</color>
     <color name="grey">#9E9E9E</color>
     <color name="grey400">#BDBDBD</color>
+    <color name="red">#F44336</color>
 </resources>

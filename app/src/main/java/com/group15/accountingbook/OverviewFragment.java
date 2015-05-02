@@ -21,7 +21,7 @@ public class OverviewFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
 
-        accountingBook = new AccountingBook(getActivity());
+        accountingBook = AccountingBook.getInstance(getActivity());
         accountingBook.open();
 
         TextView textBalance = (TextView) view.findViewById(R.id.text_balance);

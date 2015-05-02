@@ -25,7 +25,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        accountingBook = new AccountingBook(this);
+        accountingBook = AccountingBook.getInstance(this);
         accountingBook.open();
 
         buttonOverview = (Button) findViewById(R.id.button_overview);

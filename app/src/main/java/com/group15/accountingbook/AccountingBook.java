@@ -10,7 +10,8 @@ import java.util.List;
 
 public class AccountingBook {
 
-    // public static List<Record> RECORDS = new ArrayList<>();
+    // prevent creating more than one instance
+    private static AccountingBook mInstance = null;
 
     // database fields
     private SQLiteDatabase database;
@@ -22,8 +23,14 @@ public class AccountingBook {
             MySQLiteHelper.COLUMN_DATE
     };
 
+    public static AccountingBook getInstance(Context context) {
+        if (mInstance == null)
+            mInstance = new AccountingBook(context);
+        return mInstance;
+    }
+
     public AccountingBook(Context context) {
-        dbHelper = new MySQLiteHelper(context);
+        dbHelper = MySQLiteHelper.getInstance(context);
     }
 
     public void open() {
@@ -46,14 +53,12 @@ public class AccountingBook {
         cursor.moveToFirst();
         Record newRecord = cursorToRecord(cursor);
         cursor.close();
-        // RECORDS.add(0, newRecord);
         return newRecord;
     }
 
     public void deleteRecord(Record record) {
         database.delete(MySQLiteHelper.TABLE_RECORDS,
                 MySQLiteHelper.COLUMN_ID + "=" + record.id, null);
-        // RECORDS = getAllRecords();
     }
 
     public List<Record> getAllRecords() {

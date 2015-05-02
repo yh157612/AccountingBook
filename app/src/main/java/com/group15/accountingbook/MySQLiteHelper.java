@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
+    private static MySQLiteHelper mInstance = null;
+
     public static final String TABLE_RECORDS = "records";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_DESC = "desc";
@@ -22,6 +24,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + COLUMN_DESC + " text not null, "
             + COLUMN_AMOUNT + " real, "
             + COLUMN_DATE + " text not null);";
+
+    public static MySQLiteHelper getInstance(Context context) {
+        if (mInstance == null)
+            mInstance = new MySQLiteHelper(context);
+        return mInstance;
+    }
 
     public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
